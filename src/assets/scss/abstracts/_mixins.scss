@@ -1,0 +1,151 @@
+//BREAKPOINT-MIXINS
+@use "sass:math";
+
+@function px-to-vw($px, $base-width: 1920) {
+    @return calc(#{math.div($px, $base-width)} * 100vw);
+}
+
+$breakpoints: (
+    "phablet": 576px,
+    "tablet": 768px,
+    "bootstrap-lg": 992px,
+    "desktop": 1200px,
+    "desktop-lg": 1400px
+);
+
+@mixin mq($width, $type: max) {
+    @if map_has_key($breakpoints, $width) {
+        $width: map_get($breakpoints, $width);
+
+        @media only screen and (width >= $width) {
+            @content;
+        }
+    }
+}
+
+//Example
+//.example-header {
+//  padding: 20px;
+//  font-size: 16px;
+//  @include mq('bootstrap-lg') {
+//    padding-top: 30px;
+//    font-size: 22px;
+//  }
+//}
+
+// GRADIENT-MIXINS
+@mixin bg-gradient {
+    color: $primary;
+
+    @supports (background-clip: text) or (-webkit-background-clip: text) {
+        background-image: $linear-gradient-primary;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+}
+
+
+// FLUID TYPOGRAPHY mixins@function strip-unit($value) {
+@function strip-unit($value) {
+    @return $value / ($value * 0 + 1);
+}
+
+@mixin fluid-type($min-vw, $max-vw, $min-font-size, $max-font-size) {
+    $u1: unit($min-vw);
+    $u2: unit($max-vw);
+    $u3: unit($min-font-size);
+    $u4: unit($max-font-size);
+
+    @if $u1==$u2 and $u1==$u3 and $u1==$u4 {
+        & {
+            font-size: $min-font-size;
+
+            @media screen and (min-width: $min-vw) {
+                font-size: calc(#{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
+            }
+
+            @media screen and (min-width: $max-vw) {
+                font-size: $max-font-size;
+            }
+        }
+    }
+}
+
+//Example
+// html {
+//     @include fluid-type($min_width, $max_width, $min_font, $max_font);
+//   }
+
+// Mixin to deduct extra space created from line height
+@mixin lh-crop($lh) {
+    line-height:#{$lh};
+
+    &:before {
+        content: '';
+        display: block;
+        width: 0;
+        height: 0;
+        margin-top:calc((1 - #{$lh}) * .5em);
+    }
+
+    @media all and (-ms-high-contrast:none) {
+        &:before {
+            margin-top: 0;
+        }
+    }
+}
+
+// Example
+// .lineHeightToCrop {
+//     @include lh-crop(1.5) ** 1.5 is the value taken from Design
+// }
+
+// Mixin to use for line-clamp
+@mixin line-clamp($l) {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: #{$l};
+    overflow: hidden;
+}
+
+// Example
+// .textToBeClamped {
+//     @include line-clamp(2) ** 2 is the value to be clamped
+// }
+
+//Mixin to center element position
+@mixin center($position) {
+    position: absolute;
+
+    @if $position=='vtl' {
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+    @else if $position=='hzl' {
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        transform: translate(-50%);
+    }
+
+    @else if $position=='both' {
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+}
+
+// Example
+// .parentElement {
+//     position: relative;
+//     &:after or .childElement {
+//         @include center(vtl) ** Centers Vertically
+//         @include center(hzl) ** Centers Horizontally
+//         @include center(both) ** Centers Horizontally and Vertically
+//     }
+// }

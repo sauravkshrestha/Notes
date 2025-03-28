@@ -1,0 +1,47 @@
+// .header {
+//     &-wrapper {
+//         display: flex;
+//         justify-content: space-between;
+//         align-items: center;
+//     }
+
+//     &-title {
+//         font-size: 2rem;
+
+//         @include mq("tablet") {
+//             font-size: 3rem;
+//         }
+//     }
+
+//     &-btn {
+//         all: unset;
+//         position: relative;
+//         width: 70px;
+//         height: 28px;
+//         border: 1px solid red;
+//         border-radius: 40px;
+//         box-shadow: inset -2px -4px 6px rgba(0,0,0,0.16);
+//         cursor: pointer;
+
+//         &::after {
+//             content: "";
+//             display: block;
+//             width: 28px;
+//             height: 28px;
+//             border-radius: 50%;
+//             background-color: #222;
+//             position: absolute;
+//             top: 0;
+//             left: 0;
+//             z-index: 1;
+//             transition: all 0.3s ease;
+//         }
+
+//         &.active {
+//             &::after {
+//                 left: calc(100% - 28px);
+//             }
+//         }
+//     }
+// }
+

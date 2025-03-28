@@ -1,0 +1,43 @@
+.d {
+    &-none {
+        display: none !important;
+    }
+
+    &-block {
+        display: block !important;
+    }
+
+    &-flex {
+        display: flex !important;
+    }
+
+    &-inline-flex {
+        display: inline-flex !important;
+    }
+
+    &-md {
+        &-none {
+            @include mq("tablet") {
+                display: none !important;
+            }
+        }
+
+        &-block {
+            @include mq("tablet") {
+                display: block !important;
+            }
+        }
+
+        &-flex {
+            @include mq("tablet") {
+                display: flex !important;
+            }
+        }
+
+        &-flex {
+            @include mq("tablet") {
+                display: inline-flex !important;
+            }
+        }
+    }
+}

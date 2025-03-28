@@ -1,0 +1,59 @@
+html {
+    font-size: 10px;
+}
+
+body {
+    font-family: $font-primary;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: $color-black;
+    line-height: 1.2;
+    background-color: $color-white;
+    transition: all 0.3s ease;
+
+    &.of-hidden {
+        overflow: hidden;
+    }
+
+    &.dark-theme {
+        color: $color-white;
+        background-color: $color-black-2;
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span {
+    transition: all 0.3s ease;
+}
+
+.container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+%reset-ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+
+
+// custom for page
+
+// .body {
+//     &-wrapper {
+//         max-width: 900px;
+//         height: 100vh;
+//         margin: 0 auto;
+//         padding: 60px 0;
+//     }
+// }
