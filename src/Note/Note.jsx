@@ -11,6 +11,12 @@ import NotesLeft from "../components/NotesLeft/NotesLeft";
 
 /**
  * TODO: Add database integration
+ * - resopnsive fix
+ * - resopnsive fix UI
+ * 
+ * 
+ * 
+ * TODO: Add database integration
  * - Choose a database (e.g., MySQL, PostgreSQL, MongoDB, Firebase)
  * - Set up database connection
  * - Implement CRUD operations
@@ -19,6 +25,7 @@ import NotesLeft from "../components/NotesLeft/NotesLeft";
  * 
  * 
  * - maybe add login
+ * - make an api
  */
 
 
