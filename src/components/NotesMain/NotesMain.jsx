@@ -23,12 +23,16 @@ export default function NotesMain(props) {
     let [year, setYear] = useState(new Date().getFullYear());
     let [currentTime, setCurrentTime] = useState("");
 
+    console.log(activeNote);
+
     useEffect(() => {
-        let activeDate = activeNote.editDate && activeNote.editTime ? new Date(activeNote.editDate + ", " + activeNote.editTime) : new Date(activeNote.createDate + ", " + activeNote.createTime);
-        setMonthName(monthsObj[activeDate.getMonth()]);
-        setDay(activeDate.getDate());
-        setYear(activeDate.getFullYear());
-        setCurrentTime(activeDate.toLocaleTimeString());
+        if(activeNote) { // [bug]: if activeNote is empty there is no editDate editTime.....
+            let activeDate = activeNote.editDate && activeNote.editTime ? new Date(activeNote.editDate + ", " + activeNote.editTime) : new Date(activeNote.createDate + ", " + activeNote.createTime);
+            setMonthName(monthsObj[activeDate.getMonth()] || null);
+            setDay(activeDate.getDate() || null);
+            setYear(activeDate.getFullYear() || null);
+            setCurrentTime(activeDate.toLocaleTimeString() || null);
+        }
     }, [activeNote]);
 
     return (
@@ -36,11 +40,11 @@ export default function NotesMain(props) {
             <div className="notes-main">
                 <div className="notes-main-wrapper">
                     {/* <p className="notes-main-date">Created: 5th Aug, 2024</p> */}
-                    {Object.keys(activeNote).length > 0 && <p className="notes-main-date">{`${monthName} ${day}, ${year} at ${currentTime}`}</p>}
+                    {activeNote && Object.keys(activeNote).length > 0 && <p className="notes-main-date">{`${monthName} ${day}, ${year} at ${currentTime}`}</p>}
 
                     <div className="notes-main-body">
 
-                        {((isSearch != "searching" || searchedArray.length > 0)) && activeNote && Object.keys(activeNote).length > 0 && <NotesText activeNote={activeNote} setActiveNotes={setActiveNotes} notesData={notesData} setNotesData={setNotesData} setIsNew={setIsNew} isSearch={isSearch} searchedArray={searchedArray} setSelectedData={setSelectedData} />}
+                        {activeNote && ((isSearch != "searching" || searchedArray.length > 0)) && activeNote && Object.keys(activeNote).length > 0 && <NotesText activeNote={activeNote} setActiveNotes={setActiveNotes} notesData={notesData} setNotesData={setNotesData} setIsNew={setIsNew} isSearch={isSearch} searchedArray={searchedArray} setSelectedData={setSelectedData} />}
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NotesHeader from "../components/NotesHeader/NotesHeader";
-import NotesMain from "../components/NotesMain/NotesMain";
 import NotesLeft from "../components/NotesLeft/NotesLeft";
+import NotesMain from "../components/NotesMain/NotesMain";
 
 // TO DO:
 // Make the cardnt even after there is multiple new line 
