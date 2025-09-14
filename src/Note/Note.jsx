@@ -39,6 +39,7 @@ export default function Note() {
     const [searchedArray, setSearchedArray] = useState([]);
     const [selectedData, setSelectedData] = useState([]);
 
+    // check if data is present or not
     function checkNullData(data) {
         let returArray = [];
 
@@ -58,6 +59,7 @@ export default function Note() {
     }
 
     useEffect(() => {
+        // fetch from the database
         async function fetchData() {
             let data = await localStorage.getItem("notesData");
 
@@ -78,11 +80,13 @@ export default function Note() {
         }
 
         fetchData();
+
     }, []);
 
     return (
         <div className="body-wrapper">
-            <NotesHeader isNew={isNew} handleIsNew={setIsNew} notesData={notesData} setNotesData={setNotesData} activeNote={activeNote} setActiveNotes={setActiveNotes} isList={isList} setIsList={setIsList} setSearchedArray={setSearchedArray} isSearch={isSearch} setIsSearch={setIsSearch} />
+            
+            <NotesHeader isNew={isNew} handleIsNew={setIsNew} notesData={notesData} setNotesData={setNotesData} activeNote={activeNote} setActiveNotes={setActiveNotes} isList={isList} setIsList={setIsList} setSearchedArray={setSearchedArray} isSearch={isSearch} setIsSearch={setIsSearch} setSelectedData={setSelectedData} />
 
             <div className="body-main">
                 <NotesLeft notesData={notesData} setNotesData={setNotesData} handleActiveData={setActiveNotes} isNew={isNew} setIsNew={setIsNew} activeNote={activeNote} checkNullData={checkNullData} isList={isList} searchedArray={searchedArray} isSearch={isSearch} selectedData={selectedData} setSelectedData={setSelectedData} />

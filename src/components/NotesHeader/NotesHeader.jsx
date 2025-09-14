@@ -6,7 +6,9 @@ import createIcon from "/img/icons/create.svg";
 
 export default function NotesHeader(props) {
     let [serachValue, setSearchValue] = useState("");
+    let [isDelete, setIsDelete] = useState(false);
 
+    // create note
     function handleCreate() {
         const date = new Date();
         const dateID = date.toLocaleDateString();
@@ -26,7 +28,7 @@ export default function NotesHeader(props) {
             desc: ""
         };
 
-        if(!props.isNew) {
+        if(!props.isNew) { // check if the note is present or note like if i click the note
             props.setNotesData(prevData => {
                 if(prevData.length > 0) {
                     let matchID = "";
@@ -84,6 +86,8 @@ export default function NotesHeader(props) {
 
                     props.setNotesData([groupObj]);
                     props.setActiveNotes(notesObj);
+                    console.log("groupObj: ", groupObj);
+
                     return [groupObj];
                 }
             });
@@ -92,24 +96,32 @@ export default function NotesHeader(props) {
         }
     }
 
+    // delete the selected notes and update the notes id from 1
     function handleDelete() {
-        let updatedArray = []
-        props.setNotesData(prevData => {
+        let updatedArray = [];
+        setIsDelete(true);
 
-            updatedArray = prevData.map(dataGroup => {
-                let dataGroupKey = Object.keys(dataGroup)[0];
+        props.setNotesData((prevData) => {
+            let oldData = prevData;
 
-                let data = dataGroup[dataGroupKey].filter(dataObj => dataObj.id != props.activeNote.id).map((dataObj, i) => { dataObj.id = dataObj.id.split("-")[0] + "-" + (i + 1); return dataObj });
+            updatedArray = oldData.map(dataGroup => { // map through all the date groups
+
+                let dataGroupKey = Object.keys(dataGroup)[0]; // get all objects keys
+
+                // in that group fiter out the note that is selected and deleted which removes the selected note
+                let data = dataGroup[dataGroupKey].filter(dataObj => dataObj.id != props.activeNote.id).map((dataObj, i) => {
+                    let ID = dataObj.id;
+                    let newID = ID.split("-")[0] + "-" + (i + 1);
+                    let obj = { ...dataObj, id: newID };
+
+                    return obj;
+                });
 
                 return { [dataGroupKey]: data };
-
             });
 
             return updatedArray;
         });
-
-        props.setActiveNotes(updatedArray[0][Object.keys(updatedArray[0])[0]][0]);
-        localStorage.setItem("notesData", JSON.stringify(updatedArray));
     }
 
     function handleListView() {
@@ -145,6 +157,17 @@ export default function NotesHeader(props) {
             props.setIsSearch("not-searching");
         }
     }
+
+
+    useEffect(() => {
+        if(props.notesData.length > 0) {
+            let newActiveNote = props.notesData[0][Object.keys(props.notesData[0])[0]][0]; // after deleting the top make the first note active
+            localStorage.setItem("notesData", JSON.stringify(props.notesData)); // save the note to staorage/database
+            props.setActiveNotes(newActiveNote); // after deleting the top make the first note active
+            props.setSelectedData([newActiveNote.id]); // set the selected note to be first
+            setIsDelete(false);
+        }
+    }, [isDelete])
 
     return (
         <header className="header" id="header">

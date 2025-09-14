@@ -23,8 +23,6 @@ export default function NotesMain(props) {
     let [year, setYear] = useState(new Date().getFullYear());
     let [currentTime, setCurrentTime] = useState("");
 
-    console.log(activeNote);
-
     useEffect(() => {
         if(activeNote) { // [bug]: if activeNote is empty there is no editDate editTime.....
             let activeDate = activeNote.editDate && activeNote.editTime ? new Date(activeNote.editDate + ", " + activeNote.editTime) : new Date(activeNote.createDate + ", " + activeNote.createTime);
@@ -33,6 +31,7 @@ export default function NotesMain(props) {
             setYear(activeDate.getFullYear() || null);
             setCurrentTime(activeDate.toLocaleTimeString() || null);
         }
+        
     }, [activeNote]);
 
     return (

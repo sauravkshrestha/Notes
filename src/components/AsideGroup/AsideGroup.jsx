@@ -8,6 +8,8 @@ export default function AsideGroup(props) {
     let dateText = currentDate == groupDate ? "Today" : groupDate;
 
 
+    // console.log(groupDate);
+    
     let card = groupData[groupDate].map((card, id) => {
         let findID = searchedArray.map(searchObj => { return searchObj.id });
         // let findGroup = data[groupDate].filter(obj => findID.includes(obj.id));

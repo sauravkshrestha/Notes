@@ -9,6 +9,8 @@ export default function NotesLeft(props) {
 
     let asideGroup = notesData.map((data, id) => {
         let groupDate = Object.keys(data)[0];
+        
+        // console.log("groupDate: ", groupDate);
 
         return <AsideGroup key={id} groupData={data} setNotesData={setNotesData} notesData={notesData} setIsNew={setIsNew} groupDate={groupDate} activeNote={activeNote} handleActiveData={handleActiveData} checkNullData={checkNullData} searchedArray={searchedArray} isSearch={isSearch} isList={isList} selectedData={selectedData} setSelectedData={setSelectedData} />;
     });
